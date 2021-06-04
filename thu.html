@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+ 
+<!-- 
+ <body>
+  <ul data-bind="foreach: people">
+    <li>
+        <div>
+            <span data-bind="text: f_OR_l_a"> </span> has <span data-bind='text: list.length'>&nbsp;</span> values:             
+        </div>
+        <ul data-bind="foreach: list">
+            <li>
+                <span data-bind="text: $data"> </span>
+                
+            </li>
+        </ul>
+    </li>
+</ul>
+-->
+<table id="myTable" cellspacing="1">
+  <thead><tr><th>Firstname</th><th>Lastname</th><th>Age</th></tr></thead>
+  <tbody>         
+      <tr data-bind="foreach: people , data-bind = click:  " > 
+        <td data-bind="foreach: list">
+          <div data-bind="text: $data"></div>      
+        </td>
+      </tr>        
+  </tbody>
+</table>
+
+<p id="demo"></p> 
+  
+
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>     
+<script type="text/javascript" src="knockout.min.js"></script>  
+
+<script>
+
+function ApppViewModel() {
+
+
+    this.name = "Alton Goodwin Myra Booker Malikah Monaco Mayan Rieder Anna Wike Yael Vanvalkenburg Mackenzee George Marlina Rollins Zyasia Correa Allison Durbin Danya Conwell Bryona Solomon Lizbeth Pool Kiara Freda Paulette Cruse Starr Jacobson Arianna Cason Klee Childs Zuleika Pope Kymberley Maurer Devine Bond Ashleigh West Baylea Kersey Safiyah Land Paula Reed Lia Spears Barrington Jacinto Gillian Mcintyre Halli Mckay Maximillian Kellett Terriona Baltz Alannah Brew Brieanna Saul Zoe Forbes Mylie Cherry Yanissa Southard Eleana Belcher Marely Harrison Karlee Tidwell Ella Hoskins Lauran Palmer Tiffanie Law Kobie Ashcraft Leilanni Walsh Allisson Jelinek Milana Conaway Saddie Farmer Nahla Blair Khamyah Flood Ermina Robinette"; 
+    this.tach = this.name.split(' ');
+    this.temp = 0;
+    this.firstName = [];
+    this.lastName = [];
+    this.age = [];
+    this.tendaydu = [];
+    this.namestartsatM = [];
+
+		for (var j = 0, i =0;j<this.tach.length-1;j++)
+    {
+      
+        this.tendaydu[i] = this.tach[j] + ' ' + this.tach[j+1];
+        j++;
+        i++;
+       
+    }
+
+
+   
+
+    var f = 0
+    var l = 0
+    for ( var i = 0;i<this.tach.length;i++)
+      {
+      	if (this.temp == 0)
+        	{
+          	if(this.tach[i].search("M")==0 )
+            {
+          	this.firstName[f] = this.tach[i];
+            this.temp = 1;
+            f++ ;
+            }
+          }
+         else 
+         	{
+          	this.lastName[l] = this.tach[i];
+            this.temp = 0;
+            l++;
+          }
+      }
+
+
+    for (var i =0;i<this.firstName.length;i++)
+    {
+      if ( (this.firstName[i].length + this.lastName[i].length) <12 )
+        {
+          this.age[i] = -1;
+        }
+      else 
+        {
+          this.age[i] = Math.floor(Math.random() * 100) + 1;
+        }  
+    }  
+
+    for (var j = 0;j<this.firstName.length;j++)
+    {      
+      this.namestartsatM[j] = this.firstName[j] + ' ' + this.lastName[j];     
+       
+    }
+
+
+    var fullName = function(f_OR_l_a,list)
+    {
+      this.f_OR_l_a = f_OR_l_a;
+      this.list = list;
+       
+    }
+
+    
+    this.people = [new fullName("firstName",this.firstName) , new fullName("lastName",this.lastName),new fullName("Age",this.age) ];
+
+    console.log(this.people[0]);
+    console.log(this.people[1]);
+    console.log(this.people[2]);
+    console.log(this.people[2].list );
+    
+
+}
+
+// Activates knockout.js
+ko.applyBindings(new ApppViewModel());
+
+</script>
+</body> 
+
+</html>
