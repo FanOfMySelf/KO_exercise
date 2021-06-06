@@ -116,7 +116,7 @@ function ApppViewModel() {
     }
 
     
-    this.people = [new fullName("firstName",this.firstName()) , new fullName("lastName",this.lastName()),new fullName("Age",this.age()) ];
+    this.people = [new fullName("firstName",this.firstName()) , new fullName("lastName", this.lastName()),new fullName("Age",this.age()) ];
 
 
     this.items = ko.observableArray(this.people.map(function (i) {
