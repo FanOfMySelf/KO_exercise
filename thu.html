@@ -7,8 +7,9 @@
   <tbody>         
       <tr data-bind="foreach: people , click: select  " > 
        <td data-bind="foreach: list ">
-        <div  data-bind=" text: $data "> </div> 
+        <div  data-bind=" text: $data "><span><a href="#" data-bind="click: $root.remove_person">Remove</a></span>  </div> 
      </td>
+     
       </tr>        
   </tbody>
 </table>
@@ -34,13 +35,12 @@ function ApppViewModel() {
 
     var self = this;
     this.name = "Alton Goodwin Myra Booker Malikah Monaco Mayan Rieder Anna Wike Yael Vanvalkenburg Mackenzee George Marlina Rollins Zyasia Correa Allison Durbin Danya Conwell Bryona Solomon Lizbeth Pool Kiara Freda Paulette Cruse Starr Jacobson Arianna Cason Klee Childs Zuleika Pope Kymberley Maurer Devine Bond Ashleigh West Baylea Kersey Safiyah Land Paula Reed Lia Spears Barrington Jacinto Gillian Mcintyre Halli Mckay Maximillian Kellett Terriona Baltz Alannah Brew Brieanna Saul Zoe Forbes Mylie Cherry Yanissa Southard Eleana Belcher Marely Harrison Karlee Tidwell Ella Hoskins Lauran Palmer Tiffanie Law Kobie Ashcraft Leilanni Walsh Allisson Jelinek Milana Conaway Saddie Farmer Nahla Blair Khamyah Flood Ermina Robinette"; 
-    this.tach = this.name.split(' ');
+    this.tach = this.name.split(' '); //mảng sau khi tách các chữ trên name
     this.firstName = ko.observableArray();
     this.lastName = ko.observableArray();
     this.age = ko.observableArray();
     //this.tendaydu = ko.observableArray();
     //this.namestartsatM = ko.observableArray();
-    this.testthu = 1;
      
 		//for (var j = 0, i =0;j<this.tach.length-1;j++)
     //{
@@ -51,6 +51,9 @@ function ApppViewModel() {
     //   
     //}
 
+
+
+    //Add các tên sau khi split vào mảng firstName và lastName
     var f = 0
     var l = 0
     for ( var i = 0;i<this.tach.length;i++)
@@ -73,6 +76,7 @@ function ApppViewModel() {
       }
 
 
+      //random tuổi vào mảng age với điều kiện nếu length của fullname < 12 thì age sẽ bằng -1
     for (var i =0;i<this.firstName().length;i++)
     {
       if ( (this.firstName()[i].length + this.lastName()[i].length) <12 )
@@ -91,30 +95,34 @@ function ApppViewModel() {
    //    
    // }
 
-
-    var fullName = function(f_OR_l_a,list)
+    //function truyền value vào list
+    var fullName = function(list)
     {
-      this.f_OR_l_a = ko.observable(f_OR_l_a);
+      //this.f_OR_l_a = ko.observable(f_OR_l_a);
       this.list = ko.observableArray(list);
-     
-       
     }
 
-    
-    this.people = [new fullName("firstName",this.firstName()) , new fullName("lastName", this.lastName()),new fullName("Age",this.age()) ];
+    //truyền value vào list people
+    this.people = [new fullName(this.firstName()) , new fullName( this.lastName()),new fullName(this.age()) ];
 
-
+    //copy list people rồi truyền vào list items
     this.items = ko.observableArray(this.people.map(function (i) {
-        return new fullName(i.f_OR_l_a(),i.list());
+        return new fullName(i.list());
     }));
 
+
+
     this.select = function(item) {
-        this.selected(item);
-       
+        this.selected(item);      
     };
+
+
     this.selected = ko.observable(this.items()[0]);
     
-    
+    this.remove_person = function (person)
+    {
+      this.people.remove(person);
+    }
 
    //console.log(this.selected().f_OR_l_a());
    //console.log(this.people[1]);
