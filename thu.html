@@ -42,7 +42,12 @@ function ApppViewModel() {
     
 
   
-
+    var fullName = function(firstName,lastName,age)
+    {
+      this.firstName = ko.observable(firstName);
+      this.lastName = ko.observable(lastName);
+      this.age = ko.observable(age);
+    }
     function getRandomInt(n) { return Math.floor(Math.random() * n);}
     
     for(var i = 0;i<this.tach.length/2;i++)
@@ -50,23 +55,8 @@ function ApppViewModel() {
         this.firstName()[i] = this.tach[getRandomInt(this.tach.length)] ;
         this.lastName()[i] = this.tach[getRandomInt(this.tach.length)] ;
         this.age()[i] = Math.floor(Math.random() * 100) + 1
+        this.people.push(new fullName(this.firstName()[i],this.lastName()[i],this.age()[i]))
      }
-    
-
-
-
-    //function truyền value vào list
-    var fullName = function(firstName,lastName,age)
-    {
-      this.firstName = ko.observable(firstName);
-      this.lastName = ko.observable(lastName);
-      this.age = ko.observable(age);
-    }
-
-    for (var i = 1;i<this.tach.length/2;i++)
-    {
-      this.people.push(new fullName(this.firstName()[i],this.lastName()[i],this.age()[i]))
-    }
 
     self.items = ko.observableArray(this.people().map(function (i) {
         return new fullName(i.firstName(), i.lastName(), i.age());
