@@ -2,22 +2,22 @@
 <html>
  
 
-<table  cellspacing="1">
+<table  cellspacing="1" >
   <thead><tr><th>Firstname</th><th>Lastname</th><th>Age</th></tr></thead>
   <tbody data-bind="foreach: people">         
-      <tr >  
-        <td data-bind="text: firstName" ></td>         
-        <td data-bind=" text: lastName "></td> 
-        <td data-bind=" text: age "></td> 
+      <tr data-bind="click: $root.select">  
+         <td data-bind="text: firstName"></td>     
+         <td data-bind="text: lastName"></td>      
+         <td data-bind="text: age"></td>     
       </tr>        
   </tbody>
 </table>
 
 <div>
   <h1>Person info: </h1>
-  <p>FirstName: <span><input type="text" name="Fname" data-bind="value: 'asd'" /></span> </p> 
-  <p>LastName:  <span><input type="text" name="Lname" data-bind="value:'asd' " />    </span> </p>
-  <p>Age: <span><input type="text" name="Age" data-bind="value:'asd' " /></span> </p> 
+  <p>FirstName: <span><input type="text" name="firstName" data-bind="value: selected().firstName "/></span> </p> 
+  <p>LastName:  <span><input type="text" name="firstName" data-bind="value: selected().firstName" />    </span> </p>
+  <p>Age: <span><input type="text" name="age" data-bind="value: selected().age"  /></span> </p> 
 
 
 </div>
@@ -40,8 +40,8 @@ function ApppViewModel() {
     this.age = ko.observableArray();
     this.people = ko.observableArray();
     
-	
 
+  
 
     function getRandomInt(n) { return Math.floor(Math.random() * n);}
     
@@ -63,9 +63,22 @@ function ApppViewModel() {
       this.age = ko.observable(age);
     }
 
-    //truyền value vào list people
-    this.people = (new fullName(this.firstName(),this.lastName(),this.age()  ));
+    for (var i = 1;i<this.tach.length/2;i++)
+    {
+      this.people.push(new fullName(this.firstName()[i],this.lastName()[i],this.age()[i]))
+    }
 
+    self.items = ko.observableArray(this.people().map(function (i) {
+        return new fullName(i.firstName(), i.lastName(), i.age());
+    }));
+
+    self.select = function(item) {
+        self.selected(item);
+        
+    };
+    self.selected = ko.observable(self.items()[0]);
+
+    this.test = [{FirstName: 'aa', LastName: 'nnn', age: 20},{FirstName: 'bb', LastName: 'mmm', age: 25}]
 
    //console.log(this.people.age);
    //console.log(this.people.firstName);
