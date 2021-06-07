@@ -2,11 +2,11 @@
 <html>
  
 
-<table id="myTable" cellspacing="1">
+<table  cellspacing="1">
   <thead><tr><th>Firstname</th><th>Lastname</th><th>Age</th></tr></thead>
   <tbody data-bind="foreach: people">         
       <tr >  
-        <td data-bind=" text: firstName "></td>         
+        <td data-bind="text: firstName" ></td>         
         <td data-bind=" text: lastName "></td> 
         <td data-bind=" text: age "></td> 
       </tr>        
@@ -58,16 +58,19 @@ function ApppViewModel() {
     //function truyền value vào list
     var fullName = function(firstName,lastName,age)
     {
-      this.firstName = (firstName);
-      this.lastName = (lastName);
-      this.age = age;
+      this.firstName = ko.observable(firstName);
+      this.lastName = ko.observable(lastName);
+      this.age = ko.observable(age);
     }
 
     //truyền value vào list people
     this.people = (new fullName(this.firstName(),this.lastName(),this.age()  ));
 
 
-   console.log(this.people.age);
+   //console.log(this.people.age);
+   //console.log(this.people.firstName);
+   //console.log(this.people.lastName);
+   console.log( this.people)
    // console.log(this.people[2].list );
     
 
