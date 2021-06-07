@@ -39,7 +39,7 @@ function ApppViewModel() {
     this.lastName = ko.observableArray();
     this.age = ko.observableArray();
     this.people = ko.observableArray();
-    
+    this.tendaydu = "";
 
   
     var fullName = function(firstName,lastName,age)
@@ -55,8 +55,20 @@ function ApppViewModel() {
         this.firstName()[i] = this.tach[getRandomInt(this.tach.length)] ;
         this.lastName()[i] = this.tach[getRandomInt(this.tach.length)] ;
         this.age()[i] = Math.floor(Math.random() * 100) + 1
-        this.people.push(new fullName(this.firstName()[i],this.lastName()[i],this.age()[i]))
+        
+        if (this.firstName()[i].search('M')==0 && (this.firstName()[i] + this.lastName()[i]).length >12)
+        {
+          this.people.push(new fullName(this.firstName()[i],this.lastName()[i],this.age()[i]))
+        }
+       
+
      }
+
+     if (this.people().length === 0)
+      {
+          this.people.push(new fullName("Không có firstName","Không có lastName",0));
+          console.log("Mảng rỗng")
+      } 
 
     self.items = ko.observableArray(this.people().map(function (i) {
         return new fullName(i.firstName(), i.lastName(), i.age());
