@@ -1,38 +1,23 @@
 <!DOCTYPE html>
 <html>
  
-<!-- 
- <body>
-  <ul data-bind="foreach: people">
-    <li>
-        <div>
-            <span data-bind="text: f_OR_l_a"> </span> has <span data-bind='text: list.length'>&nbsp;</span> values:             
-        </div>
-        <ul data-bind="foreach: list">
-            <li>
-                <span data-bind="text: $data"> </span>
-                
-            </li>
-        </ul>
-    </li>
-</ul>
--->
+
 <table id="myTable" cellspacing="1">
   <thead><tr><th>Firstname</th><th>Lastname</th><th>Age</th></tr></thead>
   <tbody>         
-      <tr data-bind="foreach: people , click: $root.select " > 
-        <td data-bind="foreach: list">
-          <div data-bind="text: $data"></div>      
-        </td>
+      <tr data-bind="foreach: people , click: select  " > 
+       <td data-bind="foreach: list ">
+        <div  data-bind=" text: $data "> </div> 
+     </td>
       </tr>        
   </tbody>
 </table>
 
 <div>
   <h1>Person info: </h1>
-  <p>FirstName: <span><input type="text" name="Fname" data-bind="value: selected().items()[0].list[value: testthu ]" /></span> </p> 
-  <p>LastName:  <span><input type="text" name="Lname" data-bind="value: selected().items()[1].list[attr:testthu ]" />    </span> </p>
-  <p>Age: <span><input type="text" name="Fname" data-bind="value: selected().[2].list[attr:testthu ]" /></span> </p> 
+  <p>FirstName: <span><input type="text" name="f_OR_l_a" data-bind="value: selected().f_OR_l_a" /></span> </p> 
+  <p>LastName:  <span><input type="text" name="Lname" data-bind="value:'asd' " />    </span> </p>
+  <p>Age: <span><input type="text" name="Age" data-bind="text: selected() " /></span> </p> 
 
 
 </div>
@@ -50,22 +35,21 @@ function ApppViewModel() {
     var self = this;
     this.name = "Alton Goodwin Myra Booker Malikah Monaco Mayan Rieder Anna Wike Yael Vanvalkenburg Mackenzee George Marlina Rollins Zyasia Correa Allison Durbin Danya Conwell Bryona Solomon Lizbeth Pool Kiara Freda Paulette Cruse Starr Jacobson Arianna Cason Klee Childs Zuleika Pope Kymberley Maurer Devine Bond Ashleigh West Baylea Kersey Safiyah Land Paula Reed Lia Spears Barrington Jacinto Gillian Mcintyre Halli Mckay Maximillian Kellett Terriona Baltz Alannah Brew Brieanna Saul Zoe Forbes Mylie Cherry Yanissa Southard Eleana Belcher Marely Harrison Karlee Tidwell Ella Hoskins Lauran Palmer Tiffanie Law Kobie Ashcraft Leilanni Walsh Allisson Jelinek Milana Conaway Saddie Farmer Nahla Blair Khamyah Flood Ermina Robinette"; 
     this.tach = this.name.split(' ');
-    this.temp = 0;
     this.firstName = ko.observableArray();
     this.lastName = ko.observableArray();
     this.age = ko.observableArray();
-    this.tendaydu = ko.observableArray();
-    this.namestartsatM = ko.observableArray();
+    //this.tendaydu = ko.observableArray();
+    //this.namestartsatM = ko.observableArray();
     this.testthu = 1;
-
-		for (var j = 0, i =0;j<this.tach.length-1;j++)
-    {
-      
-        this.tendaydu()[i] = this.tach[j] + ' ' + this.tach[j+1];
-        j++;
-        i++;
-       
-    }
+     
+		//for (var j = 0, i =0;j<this.tach.length-1;j++)
+    //{
+    //  
+    //    this.tendaydu()[i] = this.tach[j] + ' ' + this.tach[j+1];
+    //    j++;
+    //    i++;
+    //   
+    //}
 
     var f = 0
     var l = 0
@@ -73,12 +57,12 @@ function ApppViewModel() {
       {
       	if (this.temp == 0)
         	{
-          	if(this.tach[i].search("M")==0 )
-            {
+          	//if(this.tach[i].search("M")==0 )
+            //{
           	this.firstName()[f] = this.tach[i];
             this.temp = 1;
             f++ ;
-            }
+            //}
           }
          else 
          	{
@@ -101,17 +85,18 @@ function ApppViewModel() {
         }  
     }  
 
-    for (var j = 0;j<this.firstName().length;j++)
-    {      
-      this.namestartsatM()[j] = this.firstName()[j] + ' ' + this.lastName()[j];     
-       
-    }
+   // for (var j = 0;j<this.firstName().length;j++)
+   // {      
+   //   this.namestartsatM()[j] = this.firstName()[j] + ' ' + this.lastName()[j];     
+   //    
+   // }
 
 
     var fullName = function(f_OR_l_a,list)
     {
-      this.f_OR_l_a = f_OR_l_a;
-      this.list = list;
+      this.f_OR_l_a = ko.observable(f_OR_l_a);
+      this.list = ko.observableArray(list);
+     
        
     }
 
@@ -120,22 +105,22 @@ function ApppViewModel() {
 
 
     this.items = ko.observableArray(this.people.map(function (i) {
-        return new fullName(i.f_OR_l_a,i.list);
+        return new fullName(i.f_OR_l_a(),i.list());
     }));
 
     this.select = function(item) {
         this.selected(item);
-        this.enableEdit(true);
+       
     };
     this.selected = ko.observable(this.items()[0]);
     
-    this.enableEdit = ko.observable(false);
+    
 
-    console.log(this.people[0]);
-    console.log(this.people[1]);
-    console.log(this.people[2]);
-    console.log(this.people[2].list );
-    console.log(this.items()[0].list)
+   //console.log(this.selected().f_OR_l_a());
+   //console.log(this.people[1]);
+   //console.log(this.people[2]);
+   // console.log(this.people[2].list );
+    
 
 }
 
