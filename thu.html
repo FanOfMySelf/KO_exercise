@@ -5,8 +5,10 @@
 <table id="myTable" cellspacing="1">
   <thead><tr><th>Firstname</th><th>Lastname</th><th>Age</th></tr></thead>
   <tbody data-bind="foreach: people">         
-      <tr data-bind=" text: $data ">              
-     
+      <tr >  
+        <td data-bind=" text: firstName "></td>         
+        <td data-bind=" text: lastName "></td> 
+        <td data-bind=" text: age "></td> 
       </tr>        
   </tbody>
 </table>
@@ -58,14 +60,14 @@ function ApppViewModel() {
     {
       this.firstName = (firstName);
       this.lastName = (lastName);
-      this.tuoi_random = age;
+      this.age = age;
     }
 
     //truyền value vào list people
     this.people = (new fullName(this.firstName(),this.lastName(),this.age()  ));
 
 
-   console.log(this.people.firstName);
+   console.log(this.people.age);
    // console.log(this.people[2].list );
     
 
