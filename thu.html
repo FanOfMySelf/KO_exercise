@@ -15,9 +15,16 @@
 
 <div>
   <h1>Person info: </h1>
-  <p>FirstName: <span><input type="text" name="firstName" data-bind="value: selected().firstName "/></span> </p> 
+  <p>FirstName: <span><input type="text" name="firstName" data-bind="value: selected().firstName  "/></span> </p> 
   <p>LastName:  <span><input type="text" name="firstName" data-bind="value: selected().lastName" />    </span> </p>
-  <p>Age: <span><input type="text" name="age" data-bind="value: selected().age"  /></span> </p> 
+  <p>Age: 
+    <span><input type="text" name="age" data-bind="value: selected().age"  /></span> 
+
+  </p> 
+  <p>Intro:</p>
+  <div data-bind="text:selected().tendaydu" ><span> asdasd</span> </div>
+  
+
 
 
 </div>
@@ -39,7 +46,7 @@ function ApppViewModel() {
     this.lastName = ko.observableArray();
     this.age = ko.observableArray();
     this.people = ko.observableArray();
-    this.tendaydu = "";
+    this.tendaydu = ko.observableArray();
 
   
     var fullName = function(firstName,lastName,age)
@@ -47,6 +54,7 @@ function ApppViewModel() {
       this.firstName = ko.observable(firstName);
       this.lastName = ko.observable(lastName);
       this.age = ko.observable(age);
+      this.tendaydu = ko.computed(function(){return this.lastName() +  " " + this.firstName(); }, this);
     }
     function getRandomInt(n) { return Math.floor(Math.random() * n);}
     
