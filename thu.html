@@ -16,7 +16,7 @@
 <div>
   <h1>Person info: </h1>
   <p>FirstName: <span><input type="text" name="firstName" data-bind="value: selected().firstName "/></span> </p> 
-  <p>LastName:  <span><input type="text" name="firstName" data-bind="value: selected().firstName" />    </span> </p>
+  <p>LastName:  <span><input type="text" name="firstName" data-bind="value: selected().lastName" />    </span> </p>
   <p>Age: <span><input type="text" name="age" data-bind="value: selected().age"  /></span> </p> 
 
 
@@ -70,11 +70,7 @@ function ApppViewModel() {
 
     this.test = [{FirstName: 'aa', LastName: 'nnn', age: 20},{FirstName: 'bb', LastName: 'mmm', age: 25}]
 
-   //console.log(this.people.age);
-   //console.log(this.people.firstName);
-   //console.log(this.people.lastName);
-   console.log( this.people)
-   // console.log(this.people[2].list );
+
     
 
 }
