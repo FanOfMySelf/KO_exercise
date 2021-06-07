@@ -4,11 +4,8 @@
 
 <table id="myTable" cellspacing="1">
   <thead><tr><th>Firstname</th><th>Lastname</th><th>Age</th></tr></thead>
-  <tbody>         
-      <tr data-bind="foreach: people   " > 
-       <td >
-        <div  data-bind=" text: $data "><span><a href="#" data-bind="click: $root.remove_person">Remove</a></span>  </div> 
-     </td>
+  <tbody data-bind="foreach: people">         
+      <tr data-bind=" text: $data ">              
      
       </tr>        
   </tbody>
@@ -65,10 +62,10 @@ function ApppViewModel() {
     }
 
     //truyền value vào list people
-    this.people.push(new fullName(this.firstName(),this.lastName(),this.age()  ));
+    this.people = (new fullName(this.firstName(),this.lastName(),this.age()  ));
 
 
-   console.log(this.people());
+   console.log(this.people.firstName);
    // console.log(this.people[2].list );
     
 
