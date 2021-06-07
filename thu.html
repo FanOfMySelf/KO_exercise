@@ -5,8 +5,8 @@
 <table id="myTable" cellspacing="1">
   <thead><tr><th>Firstname</th><th>Lastname</th><th>Age</th></tr></thead>
   <tbody>         
-      <tr data-bind="foreach: people , click: select  " > 
-       <td data-bind="foreach: list ">
+      <tr data-bind="foreach: people   " > 
+       <td >
         <div  data-bind=" text: $data "><span><a href="#" data-bind="click: $root.remove_person">Remove</a></span>  </div> 
      </td>
      
@@ -16,9 +16,9 @@
 
 <div>
   <h1>Person info: </h1>
-  <p>FirstName: <span><input type="text" name="f_OR_l_a" data-bind="value: selected().f_OR_l_a" /></span> </p> 
+  <p>FirstName: <span><input type="text" name="Fname" data-bind="value: 'asd'" /></span> </p> 
   <p>LastName:  <span><input type="text" name="Lname" data-bind="value:'asd' " />    </span> </p>
-  <p>Age: <span><input type="text" name="Age" data-bind="text: selected() " /></span> </p> 
+  <p>Age: <span><input type="text" name="Age" data-bind="value:'asd' " /></span> </p> 
 
 
 </div>
@@ -39,94 +39,36 @@ function ApppViewModel() {
     this.firstName = ko.observableArray();
     this.lastName = ko.observableArray();
     this.age = ko.observableArray();
-    //this.tendaydu = ko.observableArray();
-    //this.namestartsatM = ko.observableArray();
-     
-		//for (var j = 0, i =0;j<this.tach.length-1;j++)
-    //{
-    //  
-    //    this.tendaydu()[i] = this.tach[j] + ' ' + this.tach[j+1];
-    //    j++;
-    //    i++;
-    //   
-    //}
+    this.people = ko.observableArray();
+    
+	
 
 
-
-    //Add các tên sau khi split vào mảng firstName và lastName
-    var f = 0
-    var l = 0
-    for ( var i = 0;i<this.tach.length;i++)
-      {
-      	if (this.temp == 0)
-        	{
-          	//if(this.tach[i].search("M")==0 )
-            //{
-          	this.firstName()[f] = this.tach[i];
-            this.temp = 1;
-            f++ ;
-            //}
-          }
-         else 
-         	{
-          	this.lastName()[l] = this.tach[i];
-            this.temp = 0;
-            l++;
-          }
-      }
+    function getRandomInt(n) { return Math.floor(Math.random() * n);}
+    
+    for(var i = 0;i<this.tach.length/2;i++)
+     {
+        this.firstName()[i] = this.tach[getRandomInt(this.tach.length)] ;
+        this.lastName()[i] = this.tach[getRandomInt(this.tach.length)] ;
+        this.age()[i] = Math.floor(Math.random() * 100) + 1
+     }
+    
 
 
-      //random tuổi vào mảng age với điều kiện nếu length của fullname < 12 thì age sẽ bằng -1
-    for (var i =0;i<this.firstName().length;i++)
-    {
-      if ( (this.firstName()[i].length + this.lastName()[i].length) <12 )
-        {
-          this.age()[i] = -1;
-        }
-      else 
-        {
-          this.age()[i] = Math.floor(Math.random() * 100) + 1;
-        }  
-    }  
-
-   // for (var j = 0;j<this.firstName().length;j++)
-   // {      
-   //   this.namestartsatM()[j] = this.firstName()[j] + ' ' + this.lastName()[j];     
-   //    
-   // }
 
     //function truyền value vào list
-    var fullName = function(list)
+    var fullName = function(firstName,lastName,age)
     {
-      //this.f_OR_l_a = ko.observable(f_OR_l_a);
-      this.list = ko.observableArray(list);
+      this.firstName = (firstName);
+      this.lastName = (lastName);
+      this.tuoi_random = age;
     }
 
     //truyền value vào list people
-    this.people = [new fullName(this.firstName()) , new fullName( this.lastName()),new fullName(this.age()) ];
-
-    //copy list people rồi truyền vào list items
-    this.items = ko.observableArray(this.people.map(function (i) {
-        return new fullName(i.list());
-    }));
+    this.people.push(new fullName(this.firstName(),this.lastName(),this.age()  ));
 
 
-
-    this.select = function(item) {
-        this.selected(item);      
-    };
-
-
-    this.selected = ko.observable(this.items()[0]);
-    
-    this.remove_person = function (person)
-    {
-      this.people.remove(person);
-    }
-
-   //console.log(this.selected().f_OR_l_a());
-   //console.log(this.people[1]);
-   //console.log(this.people[2]);
+   console.log(this.people());
    // console.log(this.people[2].list );
     
 
