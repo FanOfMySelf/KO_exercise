@@ -2,13 +2,14 @@
 <html>
  
 
-<table  cellspacing="1" >
+<table  >
   <thead><tr><th>Firstname</th><th>Lastname</th><th>Age</th></tr></thead>
-  <tbody data-bind="foreach: people">         
+  <tbody data-bind="foreach: items">         
       <tr data-bind="click: $root.select">  
          <td data-bind="text: firstName"></td>     
          <td data-bind="text: lastName"></td>      
-         <td data-bind="text: age"></td>     
+         <td data-bind="text: age"></td>
+         <td><a href="#" data-bind="click: $root.removePeople">Remove</a></td>
       </tr>        
   </tbody>
 </table>
@@ -16,18 +17,37 @@
 <div>
   <h1>Person info: </h1>
   <p>FirstName: <span><input type="text" name="firstName" data-bind="value: selected().firstName  "/></span> </p> 
-  <p>LastName:  <span><input type="text" name="firstName" data-bind="value: selected().lastName" />    </span> </p>
+  <p>LastName:  <span><input type="text" name="lastName" data-bind="value: selected().lastName" />    </span> </p>
   <p>Age: 
-    <span><input type="text" name="age" data-bind="value: selected().age"  /></span> 
-
+    <span><input id ="age" type="text" name="age" data-bind="value: selected().age"  /></span> 
   </p> 
+  <!--
   <p>Intro:</p>
-  <div data-bind="text:selected().tendaydu" ><span> asdasd</span> </div>
-  
 
+  <p><span><input type="text" name="fullName" data-bind="value: selected().tendaydu  "/></span><span data-bind="visible: selected().xetdk !=true ">asdasd</span>  </p>
+  -->
+
+</div>     
+  
+<div>
+  <h1>Delete table: </h1>
+  <table  >
+    <thead><tr><th>Firstname</th><th>Lastname</th><th>Age</th></tr></thead>
+    <tbody data-bind="foreach: items_undo">         
+        <tr >  
+           <td data-bind="text: firstName"></td>     
+           <td data-bind="text: lastName"></td>      
+           <td data-bind="text: age"></td>
+           <td><a href="#" data-bind="click: $root.UndoPeople">Undo</a></td>
+        </tr>        
+    </tbody>
+  </table>
 
 
 </div>
+
+
+
 
 <p id="demo"></p> 
   
@@ -47,17 +67,19 @@ function ApppViewModel() {
     this.age = ko.observableArray();
     this.people = ko.observableArray();
     this.tendaydu = ko.observableArray();
-
-  
     var fullName = function(firstName,lastName,age)
     {
       this.firstName = ko.observable(firstName);
       this.lastName = ko.observable(lastName);
       this.age = ko.observable(age);
       this.tendaydu = ko.computed(function(){return this.lastName() +  " " + this.firstName(); }, this);
-    }
-    function getRandomInt(n) { return Math.floor(Math.random() * n);}
-    
+      
+    }    
+
+    this.UndoPeopleArray=ko.observableArray()
+
+
+    function getRandomInt(n) { return Math.floor(Math.random() * n);} 
     for(var i = 0;i<this.tach.length/2;i++)
      {
         this.firstName()[i] = this.tach[getRandomInt(this.tach.length)] ;
@@ -78,21 +100,28 @@ function ApppViewModel() {
           console.log("Mảng rỗng")
       } 
 
-    self.items = ko.observableArray(this.people().map(function (i) {
+    self.items = ko.observableArray(this.people().map(function (i) {       
+        return new fullName(i.firstName(), i.lastName(), i.age());
+    }));
+        
+    self.items_undo = ko.observableArray(this.UndoPeopleArray().map(function (i) {       
         return new fullName(i.firstName(), i.lastName(), i.age());
     }));
 
-    self.select = function(item) {
-        self.selected(item);
-        
-    };
+    self.select = function(item) { self.selected(item); };
     self.selected = ko.observable(self.items()[0]);
 
-    this.test = [{FirstName: 'aa', LastName: 'nnn', age: 20},{FirstName: 'bb', LastName: 'mmm', age: 25}]
-
-
+    self.removePeople = function(peo) { 
+      self.items.remove(peo)
+      self.items_undo.push(new fullName(peo.firstName(), peo.lastName(), peo.age()));
+    };
+ 
+    self.UndoPeople = function(peo) { 
+      self.items_undo.remove(peo)
+      self.items.push(new fullName(peo.firstName(), peo.lastName(), peo.age()));
+    };
     
-
+    console.log(this.UndoPeopleArray())
 }
 
 // Activates knockout.js
