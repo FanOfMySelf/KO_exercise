@@ -5,7 +5,7 @@
 <table  >
   <thead><tr><th>Firstname</th><th>Lastname</th><th>Age</th></tr></thead>
   <tbody data-bind="foreach: items">         
-      <tr data-bind="click: $root.select">  
+      <tr data-bind="click :$root.select ">  
          <td data-bind="text: firstName"></td>     
          <td data-bind="text: lastName"></td>      
          <td data-bind="text: age"></td>
@@ -19,13 +19,14 @@
   <p>FirstName: <span><input type="text" name="firstName" data-bind="value: selected().firstName  "/></span> </p> 
   <p>LastName:  <span><input type="text" name="lastName" data-bind="value: selected().lastName" />    </span> </p>
   <p>Age: 
-    <span><input id ="age" type="text" name="age" data-bind="value: selected().age"  /></span> 
+    <span><input id ="age" type="number" name="age" data-bind="value: selected().age" /></span> 
   </p> 
   
   <p>Intro:</p>
 
-  <p><span data-bind="text: seleted.fullName"></span><span data-bind="visible: selected().xetdk !=true ">asdasd</span>  </p>
-  
+  <p><span data-bind="text: selected().tendaydu"></span>
+    <span data-bind="text: selected().checktuoi"></span>
+  </p> 
 
 </div>     
   
@@ -46,14 +47,12 @@
 
 </div>
 
-
-
-
 <p id="demo"></p> 
   
 
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>     
 <script type="text/javascript" src="knockout.min.js"></script>  
+<script type="text/javascript" src="jquery.js"></script>
 
 <script>
 
@@ -67,13 +66,15 @@ function ApppViewModel() {
     this.age = ko.observableArray();
     this.people = ko.observableArray();
     this.tendaydu = ko.observableArray();
+
+    //ADD
     var fullName = function(firstName,lastName,age)
     {
       this.firstName = ko.observable(firstName);
       this.lastName = ko.observable(lastName);
       this.age = ko.observable(age);
       this.tendaydu = ko.computed(function(){return this.lastName() +  " " + this.firstName(); }, this);
-      
+      this.checktuoi = ko.observable("");
     }    
 
     this.UndoPeopleArray=ko.observableArray()
@@ -108,8 +109,23 @@ function ApppViewModel() {
         return new fullName(i.firstName(), i.lastName(), i.age());
     }));
 
-    self.select = function(item) { self.selected(item); };
     self.selected = ko.observable(self.items()[0]);
+    self.select = function(item) { 
+      if (item.age() > 12)
+      {
+        item.checktuoi = "is retired";
+      }
+      else if (item.age() == 0)
+      {
+        item.checktuoi = "";
+      }
+      else 
+      {
+        item.checktuoi = "is teenage";
+      }
+      self.selected(item); 
+    };
+    
 
     self.removePeople = function(peo) { 
       self.items.remove(peo)
@@ -120,8 +136,10 @@ function ApppViewModel() {
       self.items_undo.remove(peo)
       self.items.push(new fullName(peo.firstName(), peo.lastName(), peo.age()));
     };
+ 
+      
     
-    console.log(this.UndoPeopleArray())
+    
 }
 
 // Activates knockout.js
