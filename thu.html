@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
- 
+ <body>
 
 <table  >
   <thead><tr><th>Firstname</th><th>Lastname</th><th>Age</th></tr></thead>
   <tbody data-bind="foreach: items">         
-      <tr data-bind="click :$root.select ">  
+      <tr data-bind="click :$root.select ">    
          <td data-bind="text: firstName"></td>     
          <td data-bind="text: lastName"></td>      
          <td data-bind="text: age"></td>
@@ -16,16 +16,16 @@
 
 <div>
   <h1>Person info: </h1>
-  <p>FirstName: <span><input type="text" name="firstName" data-bind="value: selected().firstName  "/></span> </p> 
-  <p>LastName:  <span><input type="text" name="lastName" data-bind="value: selected().lastName" />    </span> </p>
+  <p>FirstName: <span><input type="text" name="firstName" data-bind="value: selected ().firstName  "/></span> </p> 
+  <p>LastName:  <span><input type="text" name="lastName" data-bind="value: selected ().lastName" />    </span> </p>
   <p>Age: 
-    <span><input id ="age" type="number" name="age" data-bind="value: selected().age" /></span> 
+    <span><input id ="age" type="number" name="age" data-bind="value: selected ().age" /></span> 
   </p> 
   
   <p>Intro:</p>
 
-  <p><span data-bind="text: selected().tendaydu"></span>
-    <span data-bind="text: selected().checktuoi"></span>
+  <p><span data-bind="text: selected ().fullName"></span>
+    <span data-bind="text: selected ().checkage"></span>
   </p> 
 
 </div>     
@@ -53,99 +53,8 @@
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>     
 <script type="text/javascript" src="knockout.min.js"></script>  
 <script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="index.js"></script>
 
-<script>
-
-function ApppViewModel() {
-
-    var self = this;
-    this.name = "Alton Goodwin Myra Booker Malikah Monaco Mayan Rieder Anna Wike Yael Vanvalkenburg Mackenzee George Marlina Rollins Zyasia Correa Allison Durbin Danya Conwell Bryona Solomon Lizbeth Pool Kiara Freda Paulette Cruse Starr Jacobson Arianna Cason Klee Childs Zuleika Pope Kymberley Maurer Devine Bond Ashleigh West Baylea Kersey Safiyah Land Paula Reed Lia Spears Barrington Jacinto Gillian Mcintyre Halli Mckay Maximillian Kellett Terriona Baltz Alannah Brew Brieanna Saul Zoe Forbes Mylie Cherry Yanissa Southard Eleana Belcher Marely Harrison Karlee Tidwell Ella Hoskins Lauran Palmer Tiffanie Law Kobie Ashcraft Leilanni Walsh Allisson Jelinek Milana Conaway Saddie Farmer Nahla Blair Khamyah Flood Ermina Robinette"; 
-    this.tach = this.name.split(' '); //mảng sau khi tách các chữ trên name
-    this.firstName = ko.observableArray();
-    this.lastName = ko.observableArray();
-    this.age = ko.observableArray();
-    this.people = ko.observableArray();
-    this.tendaydu = ko.observableArray();
-
-    //ADD
-    var fullName = function(firstName,lastName,age)
-    {
-      this.firstName = ko.observable(firstName);
-      this.lastName = ko.observable(lastName);
-      this.age = ko.observable(age);
-      this.tendaydu = ko.computed(function(){return this.lastName() +  " " + this.firstName(); }, this);
-      this.checktuoi = ko.observable("");
-    }    
-
-    this.UndoPeopleArray=ko.observableArray()
-
-
-    function getRandomInt(n) { return Math.floor(Math.random() * n);} 
-    for(var i = 0;i<this.tach.length/2;i++)
-     {
-        this.firstName()[i] = this.tach[getRandomInt(this.tach.length)] ;
-        this.lastName()[i] = this.tach[getRandomInt(this.tach.length)] ;
-        this.age()[i] = Math.floor(Math.random() * 100) + 1
-        
-        if (this.firstName()[i].search('M')==0 && (this.firstName()[i] + this.lastName()[i]).length >12)
-        {
-          this.people.push(new fullName(this.firstName()[i],this.lastName()[i],this.age()[i]))
-        }
-       
-
-     }
-	//check rỗng
-     if (this.people().length === 0)
-      {
-          this.people.push(new fullName("Không có firstName","Không có lastName",0));
-          console.log("Mảng rỗng")
-      } 
-
-    self.items = ko.observableArray(this.people().map(function (i) {       
-        return new fullName(i.firstName(), i.lastName(), i.age());
-    }));
-        
-    self.items_undo = ko.observableArray(this.UndoPeopleArray().map(function (i) {       
-        return new fullName(i.firstName(), i.lastName(), i.age());
-    }));
-
-    self.selected = ko.observable(self.items()[0]);
-    self.select = function(item) { 
-      if (item.age() > 12)
-      {
-        item.checktuoi = "is retired";
-      }
-      else if (item.age() == 0)
-      {
-        item.checktuoi = "";
-      }
-      else 
-      {
-        item.checktuoi = "is teenage";
-      }
-      self.selected(item); 
-    };
-    
-
-    self.removePeople = function(peo) { 
-      self.items.remove(peo)
-      self.items_undo.push(new fullName(peo.firstName(), peo.lastName(), peo.age()));
-    };
- 
-    self.UndoPeople = function(peo) { 
-      self.items_undo.remove(peo)
-      self.items.push(new fullName(peo.firstName(), peo.lastName(), peo.age()));
-    };
- 
-      
-    
-    
-}
-
-// Activates knockout.js
-ko.applyBindings(new ApppViewModel());
-
-</script>
 </body> 
 
 </html>
